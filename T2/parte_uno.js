@@ -18,14 +18,17 @@ function createVis1(array, rute) {
   const escalaPorcentaje = d3
       .scaleLinear()
       .domain([0,100])
-      .rangeRound([0, 30])
+      .rangeRound([0, 45])
       // .padding(1); // agregar sepación entre el final y el inicio de una banda.
 
   const escalaY = d3
       .scaleLog()
       .domain([1, d3.max(array, d => d.Artwork)])
       .range([0, 100])
-
+  const possiblesCattegories = ["A", "B", "C", "D", "E"]
+  
+  const COLOR = d3.scaleOrdinal(d3[`schemeTableau10`])
+        .domain(possiblesCattegories)
 
   const grupos = SVG
       .selectAll("g")
@@ -33,20 +36,24 @@ function createVis1(array, rute) {
       .join(enter => {
           // Creamos un grupo "g"
           const grupos = enter.append("g")
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut);
           ;
 
-          // Para cada grupo, le agregamos un círculo
-
-
-          // Para cada grupo, le agregamos un cuadrado
+          
           const sizeRect = 40
           grupos.append("rect")
+          // .transition()
+          // .duration(500)
           .attr('width', d => escalaY(d.Artwork))
           .attr('height', d => escalaY(d.Artwork))
           .attr('x', 0)
           .attr('y', 0)
           .attr('fill', "white")
-          .attr('stroke', "green")
+          .transition("change-color")
+          .ease(d3.easeBounceOut)
+          .duration(500)
+          .attr('stroke', d => COLOR(d))
           .attr('stroke-width', d => d.Artist/ 200);
 
           // grupos.append("circle")
@@ -59,13 +66,20 @@ function createVis1(array, rute) {
           const barra = grupos.append("g");
 
           barra.append("rect")
+              .transition()
+              .ease(d3.easeBounceOut)
+              .duration(500)
               .attr('class', 'barra')
               .attr('width', 15)
               .attr('height', d => escalaPorcentaje(d.Male))
               .attr('x', d => escalaY(d.Artwork)/2 - 10)
               .attr('y', d =>escalaY(d.Artwork)/2 -10)
               .attr('fill', "orange")
+
           barra.append("rect")
+              .transition()
+              .ease(d3.easeBounceOut)
+              .duration(1000)
               .attr('class', 'barra')
               .attr('width', 15)
               .attr('height', d => escalaPorcentaje(d.Female))
@@ -91,29 +105,86 @@ function createVis1(array, rute) {
 
           // retornamos nuestros grupo ques aprovechamos de aplicar una traslación a
           // cada uno en el eje X.
+          // const porcentajeshombre = (   ) 
+          
+          
 
-          grupos.on('mouseover', (d) => {
-            const porcentajes = `${d.Male}`
-            d3.select("g").append("text")
-            .attr('x', -25)
-            .attr('y', 100)
-            .attr("class", "mylabel")
-            .style("font-size", "10px")
-            .text(porcentajes)
-            console.log("Your mouse went over")
-            console.log(this.parentNode)
-              // .text2.text(`Posición en el SVG ${d.Male}-${d => d.Female}`)
+          // grupos.on('mouseover', (d) => {
+            
+          //   d3.select("g").append("text")
+          //   .attr('x', -25)
+          //   .attr('y', 100)
+          //   .attr("class", "mylabel")
+          //   .style("font-size", "10px")
+          //   .text(porcentajeshombre)
+          //   console.log("Your mouse went over")
+          //   console.log(this.parentNode)
+          //     // .text2.text(`Posición en el SVG ${d.Male}-${d => d.Female}`)
                 
-                // .attr('stroke-width',3)
-            })
-          grupos.on('mouseout',(d) => {
-              d3.selectAll(".mylabel").remove()
-              console.log("Your mouse salio")
-                // .text2.text("")
-            })
+          //       // .attr('stroke-width',3)
+          //   })
+          // grupos.on('mouseout',(d) => {
+          //     d3.selectAll(".mylabel").remove()
+          //     console.log("Your mouse salio")
+          //       // .text2.text("")
+          //   })
+
+          // grupos.on("click", (event, d, a) => {
+
+          //     grupos.attr('fill', (dato) => {
+          //         return dato.Artist == d.Artist ? 'tomato' : 'skyblue';
+          //     }))
 
           return grupos.attr("transform", (_, i) => `translate(${escalaX(i)}, 40)`)
+
+
       })
+
+      function handleMouseOver(d, i) {  // Add interactivity
+
+        // Use D3 to select element, change color and size
+        
+
+        // Specify where to put label of text
+        d3.select(this).append("text")
+        .attr('id',"chart")
+        .attr('x', 0)
+        .attr('y', 150)
+        .style("font-size", "10px")
+        .text((d => ` hombre ${d.Male} %  mujer ${d.Female} %`));
+      }
+
+  function handleMouseOut(d, i) {
+        // Use D3 to select element, change color back to normal
+        // d3.select(this).attr({
+        //   fill: "black",
+          
+        // });
+
+        // Select text by id and then remove
+        d3.select("#chart").remove();  // Remove text location
+      }
+
+
+  // grupos.on('mouseover', (d) => {
+            
+  //   d3.select(this).append("text")
+  //     .attr('x', -25)
+  //     .attr('y', 100)
+  //     .attr("class", "mylabel")
+  //     .style("font-size", "10px")
+  //     .text((d => ` hombre ${d.Male} %  mujer ${d.Female} %`))
+  //     console.log("Your mouse went over")
+  //     console.log(d =>d.Male)
+  //       // .text2.text(`Posición en el SVG ${d.Male}-${d => d.Female}`)
+            
+  //           // .attr('stroke-width',3)
+  //       })
+  //   grupos.on('mouseout',(d) => {
+  //       d3.selectAll(".mylabel").remove()
+  //       console.log("Your mouse salio")
+  //         // .text2.text("")
+  //     })
 
 
   }
