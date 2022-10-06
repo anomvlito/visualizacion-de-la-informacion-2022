@@ -5,7 +5,7 @@ function make_tarea(datos, datos2){
 
     const SVG = d3.select(rute)
       .append("svg")
-      .attr("width", 1000)
+      .attr("width", 1200)
       .attr("height", 400);
   
     const domain = [...Array(7).keys()]; // Creamos una lista de 0 al 9
@@ -64,13 +64,6 @@ function make_tarea(datos, datos2){
             .attr('stroke', d => COLOR(d))
             .attr('stroke-width', d => d.Artist/ 200);
   
-            // grupos.append("circle")
-            //     .attr('r', d => d.Female)
-            //     .attr('cx', d => escalaY(d.Artwork)/2)
-            //     .attr('cy', d => escalaY(d.Artwork)/2)
-            //     .attr('fill', "blue")
-            // // Para cada grupo, le agregamos una barrita
-  
             const barra = grupos.append("g");
   
             barra.append("rect")
@@ -110,50 +103,15 @@ function make_tarea(datos, datos2){
                 .style("text-anchor", "middle")
                 .style("font-size", "10px")
                 .text(d => d.Category)
-  
-            // retornamos nuestros grupo ques aprovechamos de aplicar una traslación a
-            // cada uno en el eje X.
-            // const porcentajeshombre = (   ) 
-            
-            
-  
-            // grupos.on('mouseover', (d) => {
-              
-            //   d3.select("g").append("text")
-            //   .attr('x', -25)
-            //   .attr('y', 100)
-            //   .attr("class", "mylabel")
-            //   .style("font-size", "10px")
-            //   .text(porcentajeshombre)
-            //   console.log("Your mouse went over")
-            //   console.log(this.parentNode)
-            //     // .text2.text(`Posición en el SVG ${d.Male}-${d => d.Female}`)
-                  
-            //       // .attr('stroke-width',3)
-            //   })
-            // grupos.on('mouseout',(d) => {
-            //     d3.selectAll(".mylabel").remove()
-            //     console.log("Your mouse salio")
-            //       // .text2.text("")
-            //   })
-  
-            // grupos.on("click", (event, d, a) => {
-  
-            //     grupos.attr('fill', (dato) => {
-            //         return dato.Artist == d.Artist ? 'tomato' : 'skyblue';
-            //     }))
+
   
             return grupos.attr("transform", (_, i) => `translate(${escalaX(i)}, 40)`)
   
   
         })
   
-        function handleMouseOver(d, i) {  // Add interactivity
+    function handleMouseOver(d, i) {  // Add interactivity
   
-          // Use D3 to select element, change color and size
-          
-  
-          // Specify where to put label of text
           d3.select(this).append("text")
           .attr('id',"chart")
           .attr('x', 0)
@@ -163,118 +121,25 @@ function make_tarea(datos, datos2){
         }
   
     function handleMouseOut(d, i) {
-          // Use D3 to select element, change color back to normal
-          // d3.select(this).attr({
-          //   fill: "black",
-            
-          // });
-  
-          // Select text by id and then remove
+          
           d3.select("#chart").remove();  // Remove text location
         }
-    // grupos.on('mouseover', (d) => {
-              
-    //   d3.select(this).append("text")
-    //     .attr('x', -25)
-    //     .attr('y', 100)
-    //     .attr("class", "mylabel")
-    //     .style("font-size", "10px")
-    //     .text((d => ` hombre ${d.Male} %  mujer ${d.Female} %`))
-    //     console.log("Your mouse went over")
-    //     console.log(d =>d.Male)
-    //       // .text2.text(`Posición en el SVG ${d.Male}-${d => d.Female}`)
-              
-    //           // .attr('stroke-width',3)
-    //       })
-    //   grupos.on('mouseout',(d) => {
-    //       d3.selectAll(".mylabel").remove()
-    //       console.log("Your mouse salio")
-    //         // .text2.text("")
-    //     })
+    
     }
 
     const SVG = d3.select("#vis-2")
           .append("svg")
+          .attr("alignment-baseline", "center")
           .attr("width", 800)
-          .attr("height", 2000);
+          .attr("height", 800);
 
     function createVis2(artistas) {
     
   
       const domain = [...Array(10).keys()];
-      // const SVG2 = d3.select(rute)
-      //   .append("svg")
-      //   .attr("width", 1000)
-      //   .attr("height", 2000);
-  
-      // const escalaradio = d3
-      //   .scaleLinear()
-      //   .domain([1, d3.max(array, d => d.TotalArtwork)])
-      //   .range([0, 100])
       
-      // const escalaX2 = d3
-      //   .scaleLinear()
-      //   .domain(array.map((d, i) => i))
-      //   .range([0, 900])
-  
-      // const escalaY2 = d3
-      //   .scaleLinear()
-      //   .domain([0, 8964/10])
-      //   .range([0, 2000])
-  
-      
-    
-      // // const domain = [...Array(7).keys()]; // Creamos una lista de 0 al 9
-    
-      //   // Definimos escala de bandas para poner cada dato.
-      
-    
-      // const escalaPorcentaje = d3
-      //     .scaleLinear()
-      //     .domain([0,100])
-      //     .rangeRound([0, 45])
-      //     // .padding(1); // agregar sepación entre el final y el inicio de una banda.
-    
-  
-      // const possiblesCattegories = ["A", "B", "C", "D", "E"]
-      
-      // const COLOR = d3.scaleOrdinal(d3[`schemeTableau10`])
-      //       .domain(possiblesCattegories)
-    
-      // const grupos2 = SVG2
-      //     .selectAll("g")
-      //     .data(array, d => d.Artist)
-      //     .join(enter => {
-      //         // Creamos un grupo "g"
-      //         const grupos2 = enter.append("g");
-      //           // .on("mouseover", handleMouseOver)
-      //           // .on("mouseout", handleMouseOut);
-              
-      //         grupos2.append("circle")
-      //             // .transition()
-      //             // .ease(d3.easeBounceOut)
-      //             .selectAll(".statick-circles")
-      //             .attr('r', d => d.TotalArtwork)
-      //             .attr('cx', (d, i) => Math.floor(i / 3))
-      //             .attr('cy', (d, i) => i % 3)
-      //             .attr('fill', "orange")
-      //         // // Para cada grupo, le agregamos una barrita
-    
-      //         const barra = grupos2.append("g");
-    
-      //         // barra.append("rect")
-      //         //     .transition()
-      //         //     .ease(d3.easeBounceOut)
-      //         //     .duration(500)
-      //         //     .attr('class', 'barra')
-      //         //     .attr('width', 15)
-      //         //     .attr('height', d => escalaPorcentaje(d.Male))
-      //         //     .attr('x', d => escalaY(d.Artwork)/2 - 10)
-      //         //     .attr('y', d =>escalaY(d.Artwork)/2 -10)
-      //         //     .attr('fill', "orange")
       function dataJoin(array) {
-        // El código es casi identico al de createVis1
-  
+        
         const escalaX = d3
             .scaleBand()
             .domain(domain)
@@ -298,13 +163,13 @@ function make_tarea(datos, datos2){
             .domain([1, d3.max(array, d => d.TotalArtwork)])
             .range([5, 10])
   
-        
-  
         const gruposEnterYUpdate = SVG
             .selectAll("g")
             .data(array, d => d.Artist)
             .join(enter => {
-                const grupos = enter.append("g");
+                const grupos = enter.append("g")
+                .on("mouseover", handleMouseOver)
+                .on("mouseout", handleMouseOut);
   
                 grupos.append("circle")
                     .attr('r', d => escalaradio(d.TotalArtwork))
@@ -312,41 +177,38 @@ function make_tarea(datos, datos2){
                     .attr('cy', (dato, index) => 0)
                     .attr('fill', "orange")
   
-                // const sizeRect = 20
-                // grupos.append("rect")
-                //     .attr('width', sizeRect)
-                //     .attr('height', sizeRect)
-                //     .attr('x', 25 - sizeRect / 2)
-                //     .attr('y', 10)
-  
-                // grupos.append("rect")
-                //     .attr('class', 'barra')
-                //     .attr('width', 5)
-                //     .attr('height', d => escalaY(d.TotalArtwork))
-                //     .attr('x', 25 - 5 / 2)
-                //     .attr('y', 35)
-  
-                // grupos.append("text")
-                //     .attr('x', 25)
-                //     .attr('y', d => 35 + escalaY(d.TotalArtwork) + 20)
-                //     .style("dominant-baseline", "middle")
-                //     .style("text-anchor", "middle")
-                //     .text(d => d.Artist.slice(0, 8))
+                    .text(d => d.Artist.slice(0, 8))
   
                 // Retornamos los grupos que por defecto ya tendrán su posición definida.
                 return grupos.attr("transform", (_, index) => `translate(${-100}, ${-100})`)
               
               },
               update => update)
+          
   
         // Agregamos una transición para que todos los groupos (g) actualizan la traslación
         // en función de la escalaX. 
         gruposEnterYUpdate
             .transition("position")
-            .delay(1000)
-            .duration(3000)
+            .delay(500)
+            .duration(1500)
             .attr("transform", (_, index) => `translate(${escalaX(index % 10)}, ${escalaY(Math.floor(index / 10))})`)
-    }
+        
+        function handleMouseOver(d, i) {  // Add interactivity
+  
+              d3.select(this).append("text")
+              .attr('id',"chart")
+              .attr('x', 10)
+              .attr('y', 2)
+              .style("font-size", "4px")
+              .text((d => `${d.Artist}`));
+            }
+      
+        function handleMouseOut(d, i) {
+              
+              d3.select("#chart").remove();  // Remove text location
+            }  
+          }
   
     // Llamamos nuestra función con los datos iniciales
     dataJoin(artistas);
@@ -426,6 +288,7 @@ function runCode() {
         d3.csv(URL2, parseo2)
         .then((datos2) => {
           console.log(datos2);
+          console.log(datos2["Categories"]);
           make_tarea(datos, datos2)
         })
        .catch((error) => console.log(error));
@@ -435,6 +298,8 @@ function runCode() {
 
 
 runCode();
+
+
 
 
 
