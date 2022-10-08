@@ -9,29 +9,50 @@ ciertas propiedades. En particular, hice que los elementos del div se ordenaran 
 estuvisen centrados en la página web. Para entender en mejor detalle las posibilidades que poseen los
 flexbox, les invito a revisar la siguiente guia:  https://css-tricks.com/snippets/css/a-guide-to-flexbox/   */
 
-/* h1 {
-    font-family: ;
+h1 {
+    font-family: nunito;
+    margin: auto;
+    width: 0 px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 
-} */
+}
+
+.prose{
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
 
 body {
     background-color: rgb(255, 255, 255);
     margin: 100 px 0 px;
 }
 
+
+
 #vis-1 {
     /* margin: 20px 0px; */
-    width: 400px;
+    font-family: nunito;
+    font-weight: bold;
+    margin: auto;
+    width: 0 px;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
 }
 #vis-2 {
-    margin: 20px 0px;
-    width: 400px;
+    font-family: nunito;
+    font-weight: bold;
+    margin: auto;
+    width: 0 px;
     text-align: center;
     margin-left: auto¿;
     margin-right: auto;
 }
+
+
 
 

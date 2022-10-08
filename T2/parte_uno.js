@@ -6,7 +6,7 @@ function make_tarea(datos, datos2){
     const SVG = d3.select(rute)
       .append("svg")
       .attr("width", 1200)
-      .attr("height", 400);
+      .attr("height", 300);
   
     const domain = [...Array(7).keys()]; // Creamos una lista de 0 al 9
   
@@ -21,7 +21,7 @@ function make_tarea(datos, datos2){
     const escalaPorcentaje = d3
         .scaleLinear()
         .domain([0,100])
-        .rangeRound([0, 45])
+        .rangeRound([0, 50])
         // .padding(1); // agregar sepación entre el final y el inicio de una banda.
         
         const escalaY = d3
@@ -32,7 +32,7 @@ function make_tarea(datos, datos2){
         
   
         
-    const possiblesCattegories = ["A", "B", "C", "D", "E"]
+    const possiblesCattegories = ["A", "B", "C", "D", "E","F"]
     
     const COLOR = d3.scaleOrdinal(d3[`schemeTableau10`])
           .domain(possiblesCattegories)
@@ -61,20 +61,32 @@ function make_tarea(datos, datos2){
             .transition("change-color")
             .ease(d3.easeBounceOut)
             .duration(500)
-            .attr('stroke', d => COLOR(d))
+            .attr('stroke', (d, i)=> COLOR(i))
             .attr('stroke-width', d => d.Artist/ 200);
+
+            d =>console.log(COLOR(d));
   
             const barra = grupos.append("g");
   
             barra.append("rect")
                 .transition()
                 .ease(d3.easeBounceOut)
+                .duration(1000)
+                .attr('class', 'barra')
+                .attr('width', 14)
+                .attr('height', d => escalaPorcentaje(d.Female))
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('fill', "green")
+            barra.append("rect")
+                .transition()
+                .ease(d3.easeBounceOut)
                 .duration(500)
                 .attr('class', 'barra')
-                .attr('width', 15)
+                .attr('width', 14)
                 .attr('height', d => escalaPorcentaje(d.Male))
-                .attr('x', d => escalaY(d.Artwork)/2 - 10)
-                .attr('y', d =>escalaY(d.Artwork)/2 -10)
+                .attr('x', 0 )
+                .attr('y', d => escalaPorcentaje(d.Female))
                 .attr('fill', "orange")
   
             barra.append("rect")
@@ -82,23 +94,26 @@ function make_tarea(datos, datos2){
                 .ease(d3.easeBounceOut)
                 .duration(1000)
                 .attr('class', 'barra')
-                .attr('width', 15)
+                .attr('width', 14)
                 .attr('height', d => escalaPorcentaje(d.Female))
-                .attr('x', d => escalaY(d.Artwork)/2 - 10)
-                .attr('y', d => escalaY(d.Artwork)/2 - 10 - escalaPorcentaje(d.Female))
+                .attr('x', 0)
+                .attr('y', 0)
                 .attr('fill', "green")
+
+            barra.attr("transform", (d, i) => `translate(${escalaY(d.Artwork)/2 - 7},${ escalaY(d.Artwork)/2 -25 })`)
   
             // // Para cada grupo, le agregamos un texto
-            const text2 = grupos
-                .append("text")
-                .attr("x", 10)
-                .attr("y", 40)
-                .style("font-size", "10px")
-                .text("")
+            // const text2 = grupos
+            //     .append("text")
+            //     .attr("x", 10)
+            //     .attr("y", 40)
+            //     .style("font-size", "10px")
+            //     .text("")
   
             grupos.append("text")
-                .attr('x', 25)
+                .attr('x', d =>escalaY(d.Artwork)/2 )
                 .attr('y',-20)
+                .style("margin", "center")
                 .style("dominant-baseline", "middle")
                 .style("text-anchor", "middle")
                 .style("font-size", "10px")
@@ -133,7 +148,7 @@ function make_tarea(datos, datos2){
           .attr("width", 800)
           .attr("height", 800);
 
-    function createVis2(artistas) {
+    function createVis2(artistas, color) {
     
   
       const domain = [...Array(10).keys()];
@@ -161,7 +176,12 @@ function make_tarea(datos, datos2){
         const escalaradio = d3
             .scaleLinear()
             .domain([1, d3.max(array, d => d.TotalArtwork)])
-            .range([5, 10])
+            .range([4, 11])
+  
+        const escalatallo = d3
+            .scaleLinear()
+            .domain([1, d3.max(array, d => d.Age)])
+            .range([1, 40])
   
         const gruposEnterYUpdate = SVG
             .selectAll("g")
@@ -169,21 +189,81 @@ function make_tarea(datos, datos2){
             .join(enter => {
                 const grupos = enter.append("g")
                 .on("mouseover", handleMouseOver)
-                .on("mouseout", handleMouseOut);
+                .on("mouseout", handleMouseOut)
+                .on("click", handleClick);
+
+                grupos.append("text")
+                    .attr('x', 4)
+                    .attr('y', d =>  - escalaradio(d.TotalArtwork)*(1.5))
+                    .style("dominant-baseline", "middle")
+                    .style("text-anchor", "middle")
+                    .style("font-size", "7px")
+                    .text(d => `${d.Artist.slice(0,7)}...` )
   
                 grupos.append("circle")
+                    .attr('id',"chart2")
                     .attr('r', d => escalaradio(d.TotalArtwork))
-                    .attr('cx', (dato, index) => 0)
-                    .attr('cy', (dato, index) => 0)
-                    .attr('fill', "orange")
+                    .attr('cx', 0)
+                    .attr('cy', 0)
+                    .attr('fill', color)
   
                     .text(d => d.Artist.slice(0, 8))
+                
+                grupos.append("rect")
+                    .attr('class', 'barra')
+                    .attr('width', 5)
+                    .attr('height', d => escalaradio(d.TotalArtwork) + escalatallo(d.Age))
+                    .attr('x', -2.5)
+                    .attr('y', d =>  escalaradio(d.TotalArtwork))
+
+                grupos.append("rect")
+                    .attr('class', 'barra')
+                    .attr('width', 2)
+                    .attr('height', 8)
+                    .attr('x', 0)
+                    .attr('y', 0)
+                    .attr("transform", (_, index) => `translate(${0}, ${escalatallo(_.Age)/2 + escalaradio(_.TotalArtwork)})rotate(+135) `)
+                
+                // const hoja = grupos.append("g")
+                
+                grupos.filter(d => d.DeathYear == -1).append("path")
+                    .attr('id',"chart2")
+                    .attr('class', 'barra')
+                    .attr('d','M0,0 C2.5,4.0 2.5,7.0 0,10 L0,10 C-2.5,7.0 -2.5,4.0 0,0')
+                    .attr("transform", (_, index) => `translate(${-4}, ${escalatallo(_.Age)/2 + escalaradio(_.TotalArtwork) -2})rotate(+135) `)
+                    // .attr("transform", rotate)
+                    .attr('fill', color)
+                    // .attr("transform", (_, index) => `rotate(45deg) `)
+                             
+              
+                
+                    
+
+                
+                
+                const textito = grupos.append("g")
+                
+                grupos.append("text")
+                      .attr('id',"chart")
+                      .attr('x', 10)
+                      .attr('y', 2)
+                      .style("font-size", "4px")
   
                 // Retornamos los grupos que por defecto ya tendrán su posición definida.
                 return grupos.attr("transform", (_, index) => `translate(${-100}, ${-100})`)
+                
               
               },
-              update => update)
+              update => {update.selectAll("#chart2")
+                              .attr("fill", color)
+                            return update},
+
+              exit => exit.transition("position")
+                
+                .duration(500)
+                .style("opacity",0)
+                .remove())
+        
           
   
         // Agregamos una transición para que todos los groupos (g) actualizan la traslación
@@ -192,22 +272,70 @@ function make_tarea(datos, datos2){
             .transition("position")
             .delay(500)
             .duration(1500)
-            .attr("transform", (_, index) => `translate(${escalaX(index % 10)}, ${escalaY(Math.floor(index / 10))})`)
+            .attr("transform", (_, index) => `translate(${escalaX(index % 10)+30}, ${escalaY(Math.floor(index / 10))+10})`)
         
-        function handleMouseOver(d, i) {  // Add interactivity
+        function handleMouseOver(event,d, i) {  // Add interactivity
   
               d3.select(this).append("text")
               .attr('id',"chart")
-              .attr('x', 10)
+              .attr('x', 20)
               .attr('y', 2)
               .style("font-size", "4px")
-              .text((d => `${d.Artist}`));
+              .text((d => `Nombre ${d.Artist.slice(0,20)}`));
+              
+              d3.select(this).append("text")
+              .attr('id',"chart")
+              .attr('x', 20)
+              .attr('y', 6)
+              .style("font-size", "4px")
+              .text((d => ` Nacionalidad ${d.Nacionality}`));
+
+              d3.select(this).append("text")
+              .attr('id',"chart")
+              .attr('x', 20)
+              .attr('y', 10)
+              .style("font-size", "4px")
+              .text((d => ` Genero ${d.Gender}`));
+          
+
+              d3.select(this).append("text")
+              .attr('id',"chart")
+              .attr('x', 20)
+              .attr('y', 14)
+              .style("font-size", "4px")
+              .text((d => `Nacio el año :${d.BirthYear}`));
+              
+              d3.select(this).append("text")
+              .attr('id',"chart")
+              .attr('x', 20)
+              .attr('y', 18)
+              .style("font-size", "4px")
+              .text((d => `Edad ${d.Age }`));
+              
+              d3.select(this).append("text")
+              .attr('id',"chart")
+              .attr('x', 20)
+              .attr('y', 24)
+              .style("font-size", "4px")
+              .text(`${event.offsetX}-${event.offsetY}`)
+              
+              
+
+
             }
-      
+            // nombre completo, g ´ enero, nacionalidad, ´fecha de nacimiento y edad
         function handleMouseOut(d, i) {
               
-              d3.select("#chart").remove();  // Remove text location
+              d3.selectAll("#chart").remove();  // Remove text location
             }  
+        function handleClick(event, d){
+              console.log(Object.keys(d.Categories))}
+           
+        SVG.on("mousemove", (event,d,i) => {
+                d3.select("h2")
+                
+              })
+                // circle.attr("cx", event.offsetX).attr("cy", event.offsetY);
           }
   
     // Llamamos nuestra función con los datos iniciales
@@ -237,10 +365,22 @@ function make_tarea(datos, datos2){
   }
         
 
-    function handleClick(event, d){
+    function handleClick(event, d,i){
+      
       console.log(d.Category)
-      console.log(datos2)
-      createVis2(datos2.filter(d => Math.random() > 0.7).slice(0, 100 ));
+      const categoria = d.Category
+      // console.log(d.getAttribute('stroke'))
+      console.log(event.target.attributes.stroke.value)
+      const colorcito = event.target.attributes.stroke.value
+      function categomatch(elemento) {
+        return  categoria in elemento;
+      }
+
+      const datos3 = datos2.filter( l => Object.keys(l.Categories).includes(categoria))
+      console.log(datos3)
+      console.log(categoria)
+      createVis2(datos3.filter((l,i) =>  ( Math.random() > 0.7  )).slice(0, 100 ), colorcito);
+      // console.log(datos2.filter( d => d.Categories.))
       // filtrar por artistas que tengan obrqa
     }
 
@@ -251,6 +391,10 @@ function make_tarea(datos, datos2){
     
 }
             
+function calculaedad (x, y) {
+  if (y == -1) { return 2022 - x}
+  else {return y-x}
+  }
 
 const parseo1 = (d) => (
      {
@@ -263,6 +407,8 @@ const parseo1 = (d) => (
     Female: Math.abs( 100 - parseInt((+d.Male/(+d.Male + +d.Female)) * 100)),
   });
 
+
+
 const parseo2 = (d) => (
      {
     Artist: d.Artist,
@@ -270,6 +416,7 @@ const parseo2 = (d) => (
     Gender: d.Gender,
     BirthYear: parseInt(d["BirthYear"]),
     DeathYear: parseInt(d.DeathYear),
+    Age: calculaedad(d.BirthYear, d.DeathYear),
     TotalArtwork: parseInt(d.TotalArtwork),
     Categories: JSON.parse((d["Categories"].replace(/^"|"$/g, ''))),
   });
