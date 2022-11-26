@@ -1,0 +1,30 @@
+{
+    "name": "anime",
+    "value": 100, 
+    "children": [
+     {
+      "name": "naruto",
+      "children": [
+       {"name": "Naruto Usumaki", "size": 3938},
+       {"name": "Sasuke Ushiha", "size": 3812}
+      ]
+     },
+     {
+      "name": "spy x family",
+      "children": [
+       {"name": "Anya Forger", "size": 3534},
+       {"name": "Loid Forger", "size": 5731},
+       {"name": "Anya Forger", "size": 7840}    
+      ]
+     },
+     {
+      "name": "HxH",
+      "children": [
+       {"name": "Gon", "size": 7074},
+       {"name": "Killua", "size": 7074},
+       {"name": "Kurapik", "size": 7074},
+       {"name": "Leorio", "size": 7074}
+      ]
+     }
+    ]
+   }
