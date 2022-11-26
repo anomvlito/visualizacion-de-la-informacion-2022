@@ -3,25 +3,25 @@
      {
       "name": "naruto",
       "children": [
-       {"name": "Naruto Usumaki", "size": 3938},
-       {"name": "Sasuke Ushiha", "size": 3812}
+       {"name": "Naruto Usumaki", "value": 28},
+       {"name": "Sasuke Ushiha", "value": 19}
       ]
      },
      {
       "name": "spy x family",
       "children": [
-       {"name": "Anya Forger", "size": 3534},
-       {"name": "Loid Forger", "size": 5731},
-       {"name": "Anya Forger", "size": 7840}    
+       {"name": "Anya Forger", "value": 20},
+       {"name": "Loid Forger", "value": 32},
+       {"name": "Anya Forger", "value": 26}    
       ]
      },
      {
-      "name": "HxH",
+      "name": "HxH",s
       "children": [
-       {"name": "Gon", "size": 7074},
-       {"name": "Killua", "size": 7074},
-       {"name": "Kurapik", "size": 7074},
-       {"name": "Leorio", "size": 7074}
+       {"name": "Gon", "value": 19},
+       {"name": "Killua", "value": 22},
+       {"name": "Kurapik", "value": 25},
+       {"name": "Leorio", "value": 30}
       ]
      }
     ]
