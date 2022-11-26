@@ -1,6 +1,4 @@
-{
-    "name": "anime",
-    "value": 100, 
+{ 
     "children": [
      {
       "name": "naruto",
