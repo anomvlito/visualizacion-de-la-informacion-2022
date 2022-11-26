@@ -1,0 +1,28 @@
+{ 
+    "children": [
+     {
+      "name": "naruto",
+      "children": [
+       {"name": "Naruto Usumaki", "value": 28},
+       {"name": "Sasuke Ushiha", "value": 19}
+      ]
+     },
+     {
+      "name": "spy x family",
+      "children": [
+       {"name": "Anya Forger", "value": 20},
+       {"name": "Loid Forger", "value": 32},
+       {"name": "Anya Forger", "value": 26}    
+      ]
+     },
+     {
+      "name": "HxH",
+      "children": [
+       {"name": "Gon", "value": 19},
+       {"name": "Killua", "value": 22},
+       {"name": "Kurapik", "value": 25},
+       {"name": "Leorio", "value": 30}
+      ]
+     }
+    ]
+   }
